@@ -1,0 +1,13 @@
+:root {
+    --background: #150a1c;
+}
+body {
+    background-color: var(--background);
+}
+#game {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background-color: var(--background);
+}
