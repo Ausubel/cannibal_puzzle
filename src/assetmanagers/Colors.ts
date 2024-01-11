@@ -1,6 +1,5 @@
 enum Colors {
-    FPS = "#ffff00",
-    Space = "#0f0614"
+    FPS = "#000000"
 }
 
 export default Colors;

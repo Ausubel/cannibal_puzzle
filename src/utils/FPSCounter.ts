@@ -1,6 +1,6 @@
 import Colors from "../assetmanagers/Colors";
 import Fonts from "../assetmanagers/Fonts";
-import RenderProvider from "./RenderProvider";
+import RenderProvider from "../main/RenderProvider";
 
 export default class FPSCounter {
     private _fps: number;

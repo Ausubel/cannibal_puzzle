@@ -1,6 +1,6 @@
-import GameScene from "../scenes/GameScene";
+import GameScene from "../scenes/gamescene/GameScene";
 import SceneManager from "../scenes/core/SceneManager";
-import FPSCounter from "./FPSCounter";
+import FPSCounter from "../utils/FPSCounter";
 import RenderProvider from "./RenderProvider";
 
 export default class Game {

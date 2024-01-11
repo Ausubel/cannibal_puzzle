@@ -1,9 +1,23 @@
+import SpriteLoader from "./SpriteLoader";
+
+export type EnemySprites = {
+    moving: HTMLImageElement[];
+    fire: HTMLImageElement;
+};
+export type ShieldSprites = {
+    noDamage: HTMLImageElement;
+    damaged: HTMLImageElement;
+    veryDamaged: HTMLImageElement;
+};
+
 export default class SpriteManager {
-    readonly PLAYER_SHIP_1: HTMLImageElement[];
-    readonly PLAYER_SHIP_1_LASER: HTMLImageElement;
+    readonly BACKGROUND: HTMLImageElement
+    readonly MISSIONARY: HTMLImageElement[];
+    readonly CANNIBAL: HTMLImageElement[];
     private constructor() {
-        this.PLAYER_SHIP_1 = this.getPlayerShipSprites("ship_1");
-        this.PLAYER_SHIP_1_LASER = this.createImage("/players/ship_1/laser_ship_1/0.png");
+        this.MISSIONARY = this.loadPlayersSprites("missionary");
+        this.CANNIBAL = this.loadPlayersSprites("cannibal");
+        this.BACKGROUND = SpriteLoader.createImage("/background/0.png");
     }
     static create(): Promise<SpriteManager> {
         return new Promise<SpriteManager>(res => {
@@ -17,26 +31,21 @@ export default class SpriteManager {
     }
     private toImageList(): HTMLImageElement[] {
         const {
-            PLAYER_SHIP_1,
-            PLAYER_SHIP_1_LASER,
+            BACKGROUND,
+            CANNIBAL,
+            MISSIONARY,
         } = this;
         return [
-            ...PLAYER_SHIP_1,
-            PLAYER_SHIP_1_LASER,
+            BACKGROUND,
+            ...CANNIBAL,
+            ...MISSIONARY,
         ]
-    };
-    private getPlayerShipSprites(pathPlayer: string): HTMLImageElement[] {
+    }
+
+    private loadPlayersSprites(pathPlayer: string): HTMLImageElement[] {
         const frames = Array(3);
         for (let i = 0; i < frames.length; i++) 
-            frames[i] = this.createImage(`/players/${pathPlayer}/${i}.png`);
+            frames[i] = SpriteLoader.createImage(`/${pathPlayer}/${i}.png`);
         return frames;
-    }
-    private getSpritePath(path: string): string {
-        return `/assets/sprites${path}`;
-    }
-    private createImage(path: string): HTMLImageElement {
-        const image = new Image();
-        image.src = this.getSpritePath(path);
-        return image;
     }
 }
