@@ -54,6 +54,9 @@ export default class Boat extends RenderizableGameObject {
             this.width,
             this.height
         );
+        this.seats.forEach(seat => {
+            seat.render();
+        });
     }
     changeSpriteDirection(): void {
         if (this.movementController.isBoatDirectionRight) this.animation.changeFrames = this.sprites.toRight;
@@ -61,8 +64,7 @@ export default class Boat extends RenderizableGameObject {
     }
     addPlayer(player: Player): void {
         if (!this.seatsController.isLimitOfSeats()) return;
-        const copyPlayer = player.copy();
-        this.seatsController.addSeatPlayer(copyPlayer);
+        this.seatsController.addSeatPlayer(player);
         console.log("Player added to boat");
     }
     popPlayer(player: Player): Player {
