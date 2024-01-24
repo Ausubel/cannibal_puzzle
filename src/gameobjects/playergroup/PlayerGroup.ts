@@ -1,5 +1,7 @@
 import Vector2D from "../../math/Vector2D";
 import Player from "../players/Player";
+import Cannibal from "../players/instances/Cannibal";
+import Missionary from "../players/instances/Missionary";
 
 type PeekEnemyIterate = (enemy: Player) => void;
 
@@ -17,18 +19,16 @@ export default abstract class PlayerGroup {
         player.setPosition(position.x, position.y);
     }
     update() {
-        this.forEachEnemy(player => player.update());
+        this.forEachPlayer(player => player.update());
     }
     render() {
-        this.forEachEnemy(player => player.render());
+        this.forEachPlayer(player => player.render());
     }
     getFlatPlayers(): Player[] {
         return Array.from(this.players.values());
     }
-    destroyPlayer(player: Player) {
-        this.players.delete(player.id);
-    }
-    forEachEnemy(action: PeekEnemyIterate) {
+
+    forEachPlayer(action: PeekEnemyIterate) {
         this.players.forEach(action);
     }
     sitPlayer(player: Player): void {

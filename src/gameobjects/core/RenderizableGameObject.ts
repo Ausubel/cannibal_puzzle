@@ -24,6 +24,9 @@ export default abstract class RenderizableGameObject extends GameObject {
     set position(position: Vector2D) {
         this._position = position;
     }
+    cloneScale(){
+        return this.scale;
+    }
     abstract update(): void;
     abstract render(): void;
 }

@@ -8,4 +8,7 @@ export default class Missionary extends Player {
         const sprites = SpriteProvider.spriteManager.MISSIONARY;
         super(position, sprites, ConfigurationPlayer.MISSIONARY_SCALE);
     }
+    copy(): Missionary {
+        return new Missionary(this.position.copy());
+    }
 }

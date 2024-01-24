@@ -7,17 +7,15 @@ import BoatMovementController from "./BoatMovementController";
 import Player from "../players/Player";
 import SeatsController from "./SeatsController";
 import { BoatSprites } from "../../assetmanagers/SpriteManager";
-import Missionary from "../players/instances/Missionary";
-import Cannibal from "../players/instances/Cannibal";
 import PlayerGroupControls from "../playergroup/controls/PlayerGroupControls";
 import RenderProvider from "../../main/RenderProvider";
 
 export default class Boat extends RenderizableGameObject {
     private sprites: BoatSprites;
     private animation: SpriteAnimator;
-    private movementController: BoatMovementController;
+    movementController: BoatMovementController;
     private seats: Player[];
-    private seatsController: SeatsController;
+    seatsController: SeatsController;
     private controls: PlayerGroupControls;
     constructor() {
         const sprites = SpriteProvider.spriteManager.BOAT;
@@ -34,20 +32,18 @@ export default class Boat extends RenderizableGameObject {
             this.position,
             this.width,
             this.controls);
-        this.animation = new SpriteAnimator(this.sprites.toRight, ConfigurationBoat.BOAT_ANIMATION_INTERVAL);
-        this.seats = [
-            new Missionary(new Vector2D(40, 50)),
-            new Cannibal(new Vector2D(22, 123))
-        ];
+        this.animation = new SpriteAnimator(
+            this.sprites.toRight,
+            ConfigurationBoat.BOAT_ANIMATION_INTERVAL
+        );
+        this.seats = [];
         this.seatsController = new SeatsController(this.seats, this);
-        this.seatsController.setSeatsPosition();
     }
-
     update(): void {
         this.animation.update();
         this.movementController.update();
-        this.seatsController.setSeatsPosition();
         this.changeSpriteDirection();
+        this.seatsController.update();
     }
     render(): void {
         this.sprite = this.animation.getCurrentFrame();
@@ -60,21 +56,21 @@ export default class Boat extends RenderizableGameObject {
         );
     }
     changeSpriteDirection(): void {
-        if (this.movementController.isBoatDirectionRight) {
-            this.animation.changeFrames = this.sprites.toRight;
-        }else{
-            this.animation.changeFrames = this.sprites.toLeft;
-        }
+        if (this.movementController.isBoatDirectionRight) this.animation.changeFrames = this.sprites.toRight;
+        else this.animation.changeFrames = this.sprites.toLeft;
     }
-    addPlayerToBoat(player: Player): void {
-        if (this.seats.length < 2) {
-            this.seats.push(player);
-            // Agrega lógica para posicionar al jugador en el bote
-            // Puedes ajustar la posición relativa según la cantidad de jugadores en el bote
-            const boatPosition = this.position;
-            const boatWidth = this.width;
-            const boatHeight = this.height;
-            player.position = new Vector2D(boatPosition.x + 0.2 * boatWidth, boatPosition.y + 0.5 * boatHeight);
-        }
+    addPlayer(player: Player): void {
+        if (!this.seatsController.isLimitOfSeats()) return;
+        const copyPlayer = player.copy();
+        this.seatsController.addSeatPlayer(copyPlayer);
+        console.log("Player added to boat");
+    }
+    popPlayer(player: Player): Player {
+        const removePlayer = this.seatsController.popSeatPlayer(player);
+        console.log("Player removed from boat");
+        return removePlayer;
+    }
+    hasPlayer(player: Player): boolean {
+        return this.seatsController.hasSeatPlayer(player);
     }
 }

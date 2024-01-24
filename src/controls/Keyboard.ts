@@ -1,8 +1,6 @@
 enum Keyboard {
-    W = "w",
-    Q = "q",
-    P = "p",
-    O = "o",
+    F = "f",
+    J = "j",
     SPACE = " ",
 }
 export default Keyboard;

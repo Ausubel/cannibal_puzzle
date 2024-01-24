@@ -10,38 +10,30 @@ export default class SeatsController {
     this.seats = seats;
     this.boat = boat;
   }
-  addSeat(player: Player) {
-    if (this.isLimitOfSeats()) return;
+  update(): void {
+    this.setSeatsPosition();
+  }
+  addSeatPlayer(player: Player) {
     this.seats.push(player);
   }
-  removeSeat(id: string) {
-    this.seats = this.seats.filter((player) => player.id !== id);
+  popSeatPlayer(player: Player) {
+    this.seats = this.seats.filter((seat) => seat !== player);
+    return player;
   }
   getSeats() {
     return this.seats;
   }
-  setSeatsPosition(): void {
+  private setSeatsPosition(): void {
     const boatPosition = this.boat.position;
     const boatWidth = this.boat.width;
     const boatHeight = this.boat.height;
-    this.seats[0].position = new Vector2D(boatPosition.x + 0.2 * boatWidth, boatPosition.y + 0.5 * boatHeight);
-    this.seats[1].position = new Vector2D(boatPosition.x + 0.8 * boatWidth, boatPosition.y + 0.5 * boatHeight);
+    if(this.seats[0]) this.seats[0].position = new Vector2D(boatPosition.x + ConfigurationBoat.BOAT_FIRT_SEAT_RELATIVE_POSITION_X * boatWidth, boatPosition.y - ConfigurationBoat.BOAT_FIRT_SEAT_RELATIVE_POSITION_Y * boatHeight);
+    if(this.seats[1]) this.seats[1].position = new Vector2D(boatPosition.x + ConfigurationBoat.BOAT_SECOND_SEAT_RELATIVE_POSITION_X * boatWidth, boatPosition.y - ConfigurationBoat.BOAT_SECOND_SEAT_RELATIVE_POSITION_Y * boatHeight);
   }
-  getSeatPosition(index: number) {
-    if (index === 0) {
-      return this.getFirstSeatPosition();
-    }
-    return this.getSecondSeatPosition();
+  isLimitOfSeats() {
+    return this.seats.length <= ConfigurationBoat.BOAT_SEATS_LIMIT;
   }
-  private getFirstSeatPosition() {
-    const { x, y } = this.boat.position;
-    return { x: x + ConfigurationBoat.BOAT_FIRST_SEATS_POSITION.x, y: y + ConfigurationBoat.BOAT_FIRST_SEATS_POSITION.y };
-  }
-  private getSecondSeatPosition() {
-    const { x, y } = this.boat.position;
-    return { x: x + ConfigurationBoat.BOAT_SECOND_SEATS_POSITION.x, y: y + ConfigurationBoat.BOAT_SECOND_SEATS_POSITION.y };
-  }
-  private isLimitOfSeats() {
-    return this.seats.length >= ConfigurationBoat.BOAT_SEATS_LIMIT;
+  hasSeatPlayer(player: Player) {
+    return this.seats.includes(player);
   }
 }

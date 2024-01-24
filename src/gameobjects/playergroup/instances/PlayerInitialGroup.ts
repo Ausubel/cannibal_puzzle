@@ -25,6 +25,7 @@ export default class PlayerInitialGroup extends PlayerGroup {
     this.playerPositions.forEach((position, index) => {
       const player = index < 3 ? new Cannibal(position) : new Missionary(position);
       this.addPlayer(player);
+      console.log(player);
     });
   }
 }

@@ -8,4 +8,7 @@ export default class Cannibal extends Player {
         const sprites = SpriteProvider.spriteManager.CANNIBAL;
         super(position, sprites, ConfigurationPlayer.CANNIBAL_SCALE);
     }
+    copy(): Cannibal {
+        return new Cannibal(this.position.copy());
+    }
 }
