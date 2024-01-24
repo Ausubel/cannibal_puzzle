@@ -10,12 +10,11 @@ export default class GameControlProvider {
     private static instance: GameControlProvider;
     private constructor() {
         this.keymap = new Map<Keyboard, GameControl>([
-            [Keyboard.A, GameControl.LeftPlayerOne],
-            [Keyboard.D, GameControl.RightPlayerOne],
-            [Keyboard.W, GameControl.FirePlayerOne],
-            [Keyboard.ArrowLeft, GameControl.LeftPlayerTwo],
-            [Keyboard.ArrowRight, GameControl.RightPlayerTwo],
-            [Keyboard.ArrowUp, GameControl.FirePlayerTwo],
+            [Keyboard.W, GameControl.MissionaryBoard],
+            [Keyboard.Q, GameControl.MissionaryGetOff],
+            [Keyboard.O, GameControl.CannibalBoard],
+            [Keyboard.P, GameControl.CannibalGetOff],
+            [Keyboard.SPACE, GameControl.MoveBoat]
         ]);
         this.gameControlManager = new GameControlManager(this.keymap);
     }

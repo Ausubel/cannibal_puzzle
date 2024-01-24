@@ -30,4 +30,8 @@ export default class Player extends RenderizableGameObject {
             this.height
         );
     }
+    setPosition(x: number, y: number) {
+        this._position.x = x;
+        this._position.y = y;
+    }
 }

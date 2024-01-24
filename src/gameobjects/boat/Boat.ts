@@ -7,6 +7,10 @@ import BoatMovementController from "./BoatMovementController";
 import Player from "../players/Player";
 import SeatsController from "./SeatsController";
 import { BoatSprites } from "../../assetmanagers/SpriteManager";
+import Missionary from "../players/instances/Missionary";
+import Cannibal from "../players/instances/Cannibal";
+import PlayerGroupControls from "../playergroup/controls/PlayerGroupControls";
+import RenderProvider from "../../main/RenderProvider";
 
 export default class Boat extends RenderizableGameObject {
     private sprites: BoatSprites;
@@ -14,20 +18,26 @@ export default class Boat extends RenderizableGameObject {
     private movementController: BoatMovementController;
     private seats: Player[];
     private seatsController: SeatsController;
+    private controls: PlayerGroupControls;
     constructor() {
         const sprites = SpriteProvider.spriteManager.BOAT;
         const scale = ConfigurationBoat.BOAT_SCALE; 
+        const canvasSizeWidth = RenderProvider.getInstance().canvasSize.width;
         const position = new Vector2D(
-            ConfigurationBoat.BOAT_INITIAL_POSITION.x,
+            ConfigurationBoat.BOAT_INITIAL_POSITION.x * canvasSizeWidth ,
             ConfigurationBoat.BOAT_INITIAL_POSITION.y
         );
         super(position, sprites.toRight[0], scale);
         this.sprites = sprites;
-        this.movementController = new BoatMovementController(this);
+        this.controls = new PlayerGroupControls();
+        this.movementController = new BoatMovementController(
+            this.position,
+            this.width,
+            this.controls);
         this.animation = new SpriteAnimator(this.sprites.toRight, ConfigurationBoat.BOAT_ANIMATION_INTERVAL);
         this.seats = [
-            new Player(new Vector2D(0, 0), SpriteProvider.spriteManager.MISSIONARY, ConfigurationBoat.BOAT_SCALE),
-            new Player(new Vector2D(0, 0), SpriteProvider.spriteManager.CANNIBAL, ConfigurationBoat.BOAT_SCALE)
+            new Missionary(new Vector2D(40, 50)),
+            new Cannibal(new Vector2D(22, 123))
         ];
         this.seatsController = new SeatsController(this.seats, this);
         this.seatsController.setSeatsPosition();

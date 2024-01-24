@@ -1,12 +1,8 @@
 enum Keyboard {
-    A = "a",
-    D = "d",
     W = "w",
-    ArrowLeft = "ArrowLeft",
-    ArrowRight = "ArrowRight",
-    ArrowUp = "ArrowUp",
-    Backspace = "Backspace",
-    Esc = "Escape"
+    Q = "q",
+    P = "p",
+    O = "o",
+    SPACE = " ",
 }
-
 export default Keyboard;

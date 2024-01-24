@@ -1,12 +1,9 @@
 enum GameControl {
-    FirePlayerOne, 
-    LeftPlayerOne, 
-    RightPlayerOne,
-    FirePlayerTwo, 
-    LeftPlayerTwo, 
-    RightPlayerTwo,
-    Pause,
-    Exit
+    CannibalBoard,
+    CannibalGetOff,
+    MissionaryBoard,
+    MissionaryGetOff,
+    MoveBoat,
 }
 
 export default GameControl;
