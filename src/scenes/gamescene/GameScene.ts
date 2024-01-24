@@ -1,29 +1,28 @@
-import ConfigurationPlayer from "../../gameobjects/players/core/ConfigurationPlayer";
 import Background from "../../gameobjects/background/Background";
-import Missionary from "../../gameobjects/players/Missionary";
-import RenderProvider from "../../main/RenderProvider";
-import Vector2D from "../../math/Vector2D";
 import Scene from "../core/Scene";
+import PlayerGroup from "../../gameobjects/players/PlayerGroup";
+import Boat from "../../gameobjects/boat/Boat";
 
 export default class GameScene implements Scene {
     private background: Background;
-    private missionary: Missionary;
+    private playerGroup: PlayerGroup;
+    private boat: Boat;
     constructor() {
-        const { canvasSize } = RenderProvider.getInstance();
         this.background = new Background();
-        this.missionary = new Missionary(
-            new Vector2D(
-                canvasSize.width*ConfigurationPlayer.TEST_PLAYER_X_OF_SPAWN_BY_OF_PERCENTAGE_OF_THE_SCREEN, 
-                canvasSize.height*ConfigurationPlayer.TEST_PLAYER_Y_OF_SPAWN_BY_OF_PERCENTAGE_OF_THE_SCREEN
-            )
-        );
+        this.boat = new Boat();
+        this.playerGroup = new PlayerGroup();
+        //elimnar player
+        console.log(this.playerGroup.getFlatPlayers()[0]);
+        this.playerGroup.destroyPlayer(this.playerGroup.getFlatPlayers()[0]);
     }
     update(): void {
         this.background.update();
-        this.missionary.update();
+        this.playerGroup.update();
+        this.boat.update();
     }
     render(): void {
         this.background.render();
-        this.missionary.render();
+        this.playerGroup.render();
+        this.boat.render();
     }
 }

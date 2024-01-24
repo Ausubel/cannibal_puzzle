@@ -18,6 +18,12 @@ export default abstract class RenderizableGameObject extends GameObject {
     get height() {
         return this.sprite.height * this.scale;
     }
+    get position(): Vector2D {
+        return this._position;
+    }
+    set position(position: Vector2D) {
+        this._position = position;
+    }
     abstract update(): void;
     abstract render(): void;
 }

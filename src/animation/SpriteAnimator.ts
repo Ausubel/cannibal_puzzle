@@ -16,6 +16,9 @@ export default class SpriteAnimator {
     update() {
         this.timer.update();
     }
+    set changeFrames(frames: HTMLImageElement[]) {
+        this.frames = frames;
+    }
     private nextFrame() {
         if (this.indexCurrentFrame >= this.frames.length - 1) {
             this.indexCurrentFrame = 0;
