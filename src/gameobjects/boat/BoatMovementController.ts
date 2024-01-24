@@ -24,7 +24,7 @@ export default class BoatMovementController{
     this.boundaryRight = (canvasSizeWidth * 0.9) - boatWidth;
     this.boundaryLeft = (canvasSizeWidth * 0.13);
     this.boatSpeed = ConfigurationBoat.BOAT_SPEED_MOVEMENT;
-    this.isboatDirectionRight = true;
+    this.isboatDirectionRight = false;
     this.gameControlProvider = GameControlProvider.getInstance();
     this.timerMoveRatio = new Timer(
       () => this.enableMove(), 
@@ -33,15 +33,9 @@ export default class BoatMovementController{
   }
   update(): void {
     this.timerMoveRatio.update();
-    if (this.isLimitOfBoat()) {
-      this.changeDirection();
-    }
     this.move();
   }
   render(): void {
-  }
-  private isLimitOfBoat(): boolean {
-    return this.boatPosition.x >= this.boundaryRight || this.boatPosition.x <= this.boundaryLeft;
   }
   private reachedLeftLimit(): boolean {
     return this.boatPosition.x - ConfigurationBoat.BOAT_SPEED_MOVEMENT > this.boundaryLeft;
@@ -54,23 +48,22 @@ export default class BoatMovementController{
   }
   private move(): void {
     if (!this.canMove) return;
-    if (!this.gameControlProvider.hasPulsed(this.movementControls.moveBoat)) return;
-    if (this.isBoatDirectionRight){
-      while (this.reachedRightLimit()) {
-        this.boatPosition.x += this.boatSpeed;
-        this.isboatDirectionRight = false;
-        this.timerMoveRatio.start();
-        this.canMove = false;
-      }
-    }else{
-      while (this.reachedLeftLimit()) {
-        this.boatPosition.x -= this.boatSpeed;
-        this.isboatDirectionRight = true;
-        this.timerMoveRatio.start();
-        this.canMove = false;
+    if (this.hasPulsedMoveBoat()){
+      this.canMove = false;
+      this.changeDirection();
+      if (this.isBoatDirectionRight){
+        while (this.reachedRightLimit()) {
+          this.boatPosition.x += this.boatSpeed;
+          this.timerMoveRatio.start();
+        }
+      }else{
+        
+        while (this.reachedLeftLimit()) {
+          this.boatPosition.x -= this.boatSpeed;
+          this.timerMoveRatio.start();
+        }
       }
     }
-    
   }
   get isBoatDirectionRight(): boolean {
     return this.isboatDirectionRight;
@@ -78,5 +71,8 @@ export default class BoatMovementController{
   enableMove(): void {
     this.canMove = true;
     this.timerMoveRatio.stop();
+  }
+  private hasPulsedMoveBoat(): boolean {
+    return this.gameControlProvider.hasPulsed(this.movementControls.moveBoat);
   }
 }

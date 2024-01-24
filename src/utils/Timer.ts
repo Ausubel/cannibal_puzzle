@@ -1,44 +1,41 @@
 type TimerAction = () => void;
+
 export default class Timer {
-    private nowTime: number;
-    private lastTime: number;
+    private startTime: number;
     private elapsedTime: number;
     private stopped: boolean;
-    constructor(
-        private action: TimerAction, 
-        private readonly timeout: number
-    ) {
-        this.nowTime = performance.now();
-        this.lastTime = 0;
+
+    constructor(private action: TimerAction, private readonly timeout: number) {
+        this.startTime = 0;
         this.elapsedTime = 0;
         this.stopped = true;
     }
+
     update() {
-        if (this.checkPastTimeout()) {
-            this.pastTimeout();
-            return;
+        if (this.stopped) return;
+
+        const now = performance.now();
+        const deltaTime = now - this.startTime;
+        this.startTime = now;
+
+        this.elapsedTime += deltaTime;
+
+        if (this.elapsedTime >= this.timeout) {
+            this.elapsedTime = 0;
+            this.action();
         }
-        if (this.stopped) 
-            return;
-        this.nowTime = performance.now();
-        this.elapsedTime += this.nowTime - this.lastTime;
-        this.lastTime = this.nowTime;
     }
-    private checkPastTimeout() {
-        return this.elapsedTime >= this.timeout;
-    }
+
     start() {
-        this.elapsedTime = 0;
+        this.startTime = performance.now();
         this.stopped = false;
     }
+
     stop() {
         this.stopped = true;
     }
+
     get isStopped(): boolean {
         return this.stopped;
-    }
-    private pastTimeout() {
-        this.elapsedTime = 0;
-        this.action();
     }
 }
