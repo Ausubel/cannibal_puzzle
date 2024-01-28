@@ -2,8 +2,8 @@ export default class ConfigurationBoat {
   static readonly BOAT_SCALE: number = 0.15;
   static readonly BOAT_ANIMATION_INTERVAL: number = 400;
   static readonly BOAT_INITIAL_POSITION = {
-    x: 0.2,
-    y: 700
+    x: 0.12,
+    y: 0.7
   }
   static readonly BOAT_SPEED_MOVEMENT: number = 1;
   static readonly BOAT_SEATS_LIMIT: number = 2;

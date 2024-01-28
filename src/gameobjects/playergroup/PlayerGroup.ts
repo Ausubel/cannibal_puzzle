@@ -1,3 +1,5 @@
+import CanvasSize from "../../main/CanvasSize";
+import RenderProvider from "../../main/RenderProvider";
 import Vector2D from "../../math/Vector2D";
 import Player from "../players/Player";
 import Cannibal from "../players/instances/Cannibal";
@@ -5,12 +7,13 @@ import Missionary from "../players/instances/Missionary";
 
 type PeekEnemyIterate = (enemy: Player) => void;
 
-export default abstract class PlayerGroup {
+export default class PlayerGroup {
 	protected players: Map<string, Player>;
 	protected playerPositions: Vector2D[];
-	constructor() {
+	constructor(private isInitialGroup: boolean) {
 		this.players = new Map<string, Player>();
 		this.playerPositions = Array<Vector2D>();
+		this.initPlayers();
 	}
 	addPlayer(player: Player) {
 		this.players.set(player.id, player);
@@ -18,6 +21,16 @@ export default abstract class PlayerGroup {
 	setPlayerPosition(player: Player, position: Vector2D) {
 		player.setPosition(position.x, position.y);
 	}
+	initPlayers(){
+		if (!this.isInitialGroup) this.initPositions(0.07);
+		else{
+			this.initPositions(0.03);
+			this.playerPositions.forEach((position, index) => {
+				const player = index < 3 ? new Cannibal(position) : new Missionary(position);
+				this.addPlayer(player);
+			});
+		}	
+  }
 	update() {
 		this.forEachPlayer(player => player.update());
 	}
@@ -53,4 +66,31 @@ export default abstract class PlayerGroup {
 		this.players.delete(cannibal.id);
 		return cannibal;
 	}
+	initPositions(gap:number){
+    const { canvasSize } = RenderProvider.getInstance();
+    const spawnPointX = this.getSpawnPointX(canvasSize, gap);
+    const botSpawnPointY = this.getBottomSpawnPointY(canvasSize);
+    const topSpawnPointY = this.getTopSpawnPointY(canvasSize);
+    const horizontalGap = this.horizontalGap(canvasSize);
+    this.playerPositions = [
+      new Vector2D( spawnPointX, botSpawnPointY),
+      new Vector2D( spawnPointX + horizontalGap, botSpawnPointY),
+      new Vector2D( spawnPointX + (2 * horizontalGap), botSpawnPointY),
+      new Vector2D( spawnPointX, topSpawnPointY),
+      new Vector2D( spawnPointX + horizontalGap, topSpawnPointY),
+      new Vector2D( spawnPointX+ (2 * horizontalGap), topSpawnPointY)
+    ];
+  }
+	protected getSpawnPointX(canvasSize: CanvasSize, scale: number): number{
+    return canvasSize.width* scale
+  }
+  protected getBottomSpawnPointY(canvasSize: CanvasSize): number{
+    return canvasSize.height*0.50
+  }
+  protected getTopSpawnPointY(canvasSize: CanvasSize): number{
+    return canvasSize.height*0.33
+  }
+  protected horizontalGap(canvasSize: CanvasSize) {
+    return canvasSize.width*0.052;
+  }
 }

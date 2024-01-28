@@ -13,17 +13,17 @@ import RenderProvider from "../../main/RenderProvider";
 export default class Boat extends RenderizableGameObject {
     private sprites: BoatSprites;
     private animation: SpriteAnimator;
-    movementController: BoatMovementController;
-    private seats: Player[];
-    seatsController: SeatsController;
+    public movementController: BoatMovementController;
+    private seats: Map<string, Player>;
+    public seatsController: SeatsController;
     private controls: PlayerGroupControls;
     constructor() {
         const sprites = SpriteProvider.spriteManager.BOAT;
         const scale = ConfigurationBoat.BOAT_SCALE; 
-        const canvasSizeWidth = RenderProvider.getInstance().canvasSize.width;
+        const { canvasSize } = RenderProvider.getInstance();
         const position = new Vector2D(
-            ConfigurationBoat.BOAT_INITIAL_POSITION.x * canvasSizeWidth ,
-            ConfigurationBoat.BOAT_INITIAL_POSITION.y
+            ConfigurationBoat.BOAT_INITIAL_POSITION.x * canvasSize.width ,
+            ConfigurationBoat.BOAT_INITIAL_POSITION.y * canvasSize.height
         );
         super(position, sprites.toRight[0], scale);
         this.sprites = sprites;
@@ -36,7 +36,7 @@ export default class Boat extends RenderizableGameObject {
             this.sprites.toRight,
             ConfigurationBoat.BOAT_ANIMATION_INTERVAL
         );
-        this.seats = [];
+        this.seats = new Map<string, Player>();
         this.seatsController = new SeatsController(this.seats, this);
     }
     update(): void {
@@ -57,6 +57,7 @@ export default class Boat extends RenderizableGameObject {
         this.seats.forEach(seat => {
             seat.render();
         });
+        this.seatsController.render()
     }
     changeSpriteDirection(): void {
         if (this.movementController.isBoatDirectionRight) this.animation.changeFrames = this.sprites.toRight;
@@ -67,12 +68,7 @@ export default class Boat extends RenderizableGameObject {
         this.seatsController.addSeatPlayer(player);
         console.log("Player added to boat");
     }
-    popPlayer(player: Player): Player {
-        const removePlayer = this.seatsController.popSeatPlayer(player);
-        console.log("Player removed from boat");
-        return removePlayer;
-    }
-    hasPlayer(player: Player): boolean {
-        return this.seatsController.hasSeatPlayer(player);
+    removePlayer(player: Player) {
+        this.seatsController.deletePlayer(player);
     }
 }
