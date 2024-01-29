@@ -22,14 +22,14 @@ export default class PlayerGroup {
 		player.setPosition(position.x, position.y);
 	}
 	initPlayers(){
-		if (!this.isInitialGroup) this.initPositions(0.07);
-		else{
+		if (!this.isInitialGroup) this.initPositions(0.8);
+		else {
 			this.initPositions(0.03);
 			this.playerPositions.forEach((position, index) => {
 				const player = index < 3 ? new Cannibal(position) : new Missionary(position);
 				this.addPlayer(player);
 			});
-		}	
+		}
   }
 	update() {
 		this.forEachPlayer(player => player.update());

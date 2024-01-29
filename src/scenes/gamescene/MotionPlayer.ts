@@ -1,11 +1,8 @@
-import Player from "../../gameobjects/players/Player";
 import Boat from "../../gameobjects/boat/Boat";
-import PlayerInitialGroup from "../../gameobjects/playergroup/instances/PlayerInitialGroup";
-import PlayerFinalGroup from "../../gameobjects/playergroup/instances/PlayerFinalGroup";
 import PlayerGroupControls from "../../gameobjects/playergroup/controls/PlayerGroupControls";
 import Timer from "../../utils/Timer";
 import GameControlProvider from "../../controls/GameControlProvider";
-import Missionary from "../../gameobjects/players/instances/Missionary";
+import PlayerGroup from "../../gameobjects/playergroup/PlayerGroup";
 
 export default class MotionPlayer {
 	private controls: PlayerGroupControls;
@@ -14,8 +11,8 @@ export default class MotionPlayer {
 	private gameControlProvider: GameControlProvider;
 	constructor(
 		private boat: Boat,
-		private playerInitialGroup: PlayerInitialGroup,
-		private playerFinalGroup: PlayerFinalGroup
+		private playerInitialGroup: PlayerGroup,
+		private playerFinalGroup: PlayerGroup
 	) {
 		this.controls = new PlayerGroupControls();
 		this.timerMoveRatio = new Timer(() => this.enableMove(), 500);
@@ -28,19 +25,29 @@ export default class MotionPlayer {
 	}
 	private move() {
 		if (!this.canMove) return;
-		if (this.gameControlProvider.hasPulsed(this.controls.missionaryMove)) {
-			this.canMove = false;
+		if (this.hasPulsedMoveMissionary()) {
+      this.canMove = false;
 			this.moveMissionary();
 			this.timerMoveRatio.start();
-      console.log(this.playerInitialGroup.getFlatPlayers());
+      console.log("me metiron el misionero")
+      console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
+      console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
 		}
-    if (this.gameControlProvider.hasPulsed(this.controls.cannibalMove)) {
+    if (this.hasPulsedMoveCannibal()) {
       this.canMove = false;
       this.moveCannibal();
+      console.log("me metiron el canibal")
       this.timerMoveRatio.start();
-      console.log(this.playerInitialGroup.getFlatPlayers());
+      console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
+      console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
     }
 	}
+  private hasPulsedMoveCannibal(): boolean {
+    return this.gameControlProvider.hasPulsed(this.controls.cannibalMove);
+  }
+  private hasPulsedMoveMissionary(): boolean {
+    return this.gameControlProvider.hasPulsed(this.controls.missionaryMove);
+  }
 	private moveMissionary() {
 		const isBoatDirectionFinal =
 			this.boat.movementController.isBoatDirectionRight;

@@ -54,8 +54,8 @@ export default class BoatMovementController{
       this.changeDirection();
       if (this.isBoatDirectionRight){
         while (this.reachedBoundaryRightLimit()) {
-        this.boatPosition.x += this.boatSpeed;
-        this.moveButtonCooldownTimer.start();
+          this.boatPosition.x += this.boatSpeed;
+          this.moveButtonCooldownTimer.start();
         }
       }else{
         while (this.reachedBoundaryLeftLimit()) {

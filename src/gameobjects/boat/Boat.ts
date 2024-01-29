@@ -40,12 +40,18 @@ export default class Boat extends RenderizableGameObject {
         this.seatsController = new SeatsController(this.seats, this);
     }
     update(): void {
+        this.seatsController.update();
         this.animation.update();
         this.movementController.update();
+        
         this.changeSpriteDirection();
-        this.seatsController.update();
+        
     }
     render(): void {
+        this.seats.forEach(seat => {
+            seat.render();
+        });
+        this.seatsController.render()
         this.sprite = this.animation.getCurrentFrame();
         const { renderizer } = this.renderProvider;
         renderizer.drawImage(
@@ -54,10 +60,7 @@ export default class Boat extends RenderizableGameObject {
             this.width,
             this.height
         );
-        this.seats.forEach(seat => {
-            seat.render();
-        });
-        this.seatsController.render()
+        
     }
     changeSpriteDirection(): void {
         if (this.movementController.isBoatDirectionRight) this.animation.changeFrames = this.sprites.toRight;

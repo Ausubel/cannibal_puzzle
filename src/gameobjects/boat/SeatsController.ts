@@ -39,8 +39,8 @@ export default class SeatsController {
     const boatWidth = this.boat.width;
     const boatHeight = this.boat.height;
     const playersArray = this.orderedKeys.map((key) => this.players.get(key));
-    if (playersArray[0]) playersArray[0].position = new Vector2D(boatPosition.x + ConfigurationBoat.BOAT_FIRT_SEAT_RELATIVE_POSITION_X * boatWidth, boatPosition.y - ConfigurationBoat.BOAT_FIRT_SEAT_RELATIVE_POSITION_Y * boatHeight);
-    if (playersArray[1]) playersArray[1].position = new Vector2D(boatPosition.x + ConfigurationBoat.BOAT_SECOND_SEAT_RELATIVE_POSITION_X * boatWidth, boatPosition.y - ConfigurationBoat.BOAT_SECOND_SEAT_RELATIVE_POSITION_Y * boatHeight);
+    if (playersArray[0]) playersArray[0].position = new Vector2D(boatPosition.x + ConfigurationBoat.BOAT_FIRT_SEAT_RELATIVE_POSITION_X * boatWidth, boatPosition.y - ConfigurationBoat.BOAT_SEAT_RELATIVE_POSITION_Y * boatHeight);
+    if (playersArray[1]) playersArray[1].position = new Vector2D(boatPosition.x + ConfigurationBoat.BOAT_SECOND_SEAT_RELATIVE_POSITION_X * boatWidth, boatPosition.y - ConfigurationBoat.BOAT_SEAT_RELATIVE_POSITION_Y * boatHeight);
   }
   isLimitOfSeats() {
     return this.players.size <= ConfigurationBoat.BOAT_SEATS_LIMIT;
