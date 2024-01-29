@@ -15,7 +15,7 @@ export default class MotionPlayer {
 		private playerFinalGroup: PlayerGroup
 	) {
 		this.controls = new PlayerGroupControls();
-		this.timerMoveRatio = new Timer(() => this.enableMove(), 500);
+		this.timerMoveRatio = new Timer(() => this.enableMove(), 200);
 		this.gameControlProvider = GameControlProvider.getInstance();
 		this.controls = new PlayerGroupControls();
 	}
@@ -25,37 +25,60 @@ export default class MotionPlayer {
 	}
 	private move() {
 		if (!this.canMove) return;
-		if (this.hasPulsedMoveMissionary()) {
+		if (this.hasPulsedPutInMissionary()) {
       this.canMove = false;
-			this.moveMissionary();
+			this.putInMissionary();
 			this.timerMoveRatio.start();
-      console.log("me metiron el misionero")
       console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
       console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
+      console.log("BOAT GROUP",this.boat.seatsController.getFlatSeats());
 		}
-    if (this.hasPulsedMoveCannibal()) {
+    if (this.hasPulsedPutInCannibal()) {
       this.canMove = false;
-      this.moveCannibal();
-      console.log("me metiron el canibal")
+      this.putInCannibal();
       this.timerMoveRatio.start();
       console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
       console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
+      console.log("BOAT GROUP",this.boat.seatsController.getFlatSeats());
+    }
+    if (this.hasPulsedTakeOffMissionary()){
+      this.canMove = false;
+      this.takeOffMissionary();
+      this.timerMoveRatio.start();
+      console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
+      console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
+      console.log("BOAT GROUP",this.boat.seatsController.getFlatSeats());
+    }
+    if (this.hasPulsedTakeOffCannibal()){
+      this.canMove = false;
+      this.takeOffCannibal();
+      this.timerMoveRatio.start();
+      console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
+      console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
+      console.log("BOAT GROUP",this.boat.seatsController.getFlatSeats());
     }
 	}
-  private hasPulsedMoveCannibal(): boolean {
-    return this.gameControlProvider.hasPulsed(this.controls.cannibalMove);
+  private hasPulsedPutInCannibal(): boolean {
+    return this.gameControlProvider.hasPulsed(this.controls.putInCannibal);
   }
-  private hasPulsedMoveMissionary(): boolean {
-    return this.gameControlProvider.hasPulsed(this.controls.missionaryMove);
+  private hasPulsedPutInMissionary(): boolean {
+    return this.gameControlProvider.hasPulsed(this.controls.putInMissionary);
   }
-	private moveMissionary() {
-		const isBoatDirectionFinal =
+  private hasPulsedTakeOffCannibal(): boolean {
+    return this.gameControlProvider.hasPulsed(this.controls.takeOfCannibal);
+  }
+  private hasPulsedTakeOffMissionary(): boolean {
+    return this.gameControlProvider.hasPulsed(this.controls.takeOfMissionary);
+  }
+	private putInMissionary() {
+		const isBoatFinalDirection =
 			this.boat.movementController.isBoatDirectionRight;
 		const seatsUsed = this.boat.seatsController.players.size;
 		if (seatsUsed <= 1) {
-      if (!isBoatDirectionFinal) {
+      if (!isBoatFinalDirection) {
         const missionary = this.playerInitialGroup.shiftMissionaryPlayer();
         if (!missionary) return;
+        console.log(missionary);
         this.boat.seatsController.addSeatPlayer(missionary);
       } else {
         const missionary = this.playerFinalGroup.shiftMissionaryPlayer();
@@ -63,28 +86,60 @@ export default class MotionPlayer {
         if (!missionary) return;
         this.boat.seatsController.addSeatPlayer(missionary);
       }
-    }else{
-      if (!isBoatDirectionFinal){
-        const missionary = this.boat.seatsController.shiftMissionaryPlayer();
-        if (!missionary) return;
-        this.playerFinalGroup.sitPlayer(missionary);
-      }
     }
 		
 	}
-  private moveCannibal() {
-    const isBoatDirectionRight =
+  private putInCannibal() {
+    const isBoatFinalDirection =
       this.boat.movementController.isBoatDirectionRight;
-    const seatsQuantity = this.boat.seatsController.players.size;
-    if (seatsQuantity <= 1) {
-      if (!isBoatDirectionRight) {
+    const seatsUsed = this.boat.seatsController.players.size;
+    if (seatsUsed <= 1) {
+      if (!isBoatFinalDirection) {
         const cannibal = this.playerInitialGroup.shiftCannibalPlayer();
+        console.log(cannibal);
         if (!cannibal) return;
         this.boat.seatsController.addSeatPlayer(cannibal);
       } else {
         const cannibal = this.playerFinalGroup.shiftCannibalPlayer();
         if (!cannibal) return;
+        console.log(cannibal);
         this.boat.seatsController.addSeatPlayer(cannibal);
+      }
+    }
+  }
+  private takeOffMissionary(){
+    const isBoatFinalDirection =
+      this.boat.movementController.isBoatDirectionRight;
+    const seatsUsed = this.boat.seatsController.players.size;
+    if (seatsUsed > 0) {
+      if (!isBoatFinalDirection) {
+        const missionary = this.boat.seatsController.shiftMissionaryPlayer();
+        if (!missionary) return;
+        console.log(missionary);
+        this.playerInitialGroup.sitPlayer(missionary);
+      } else {
+        const missionary = this.boat.seatsController.shiftMissionaryPlayer();
+        if (!missionary) return;
+        console.log(missionary);
+        this.playerFinalGroup.sitPlayer(missionary);
+      }
+    }
+  }
+  private takeOffCannibal(){
+    const isBoatFinalDirection =
+      this.boat.movementController.isBoatDirectionRight;
+    const seatsUsed = this.boat.seatsController.players.size;
+    if (seatsUsed > 0) {
+      if (!isBoatFinalDirection) {
+        const cannibal = this.boat.seatsController.shiftCannibalPlayer();
+        if (!cannibal) return;
+        console.log(cannibal);
+        this.playerInitialGroup.sitPlayer(cannibal);
+      } else {
+        const cannibal = this.boat.seatsController.shiftCannibalPlayer();
+        if (!cannibal) return;
+        console.log(cannibal);
+        this.playerFinalGroup.sitPlayer(cannibal);
       }
     }
   }

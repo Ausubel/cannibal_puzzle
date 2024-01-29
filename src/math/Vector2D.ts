@@ -6,6 +6,9 @@ export default class Vector2D {
     diff(vector: Vector2D): Vector2D {
         return new Vector2D(this.x - vector.x, this.y - vector.y);
     }
+    equals(vector: Vector2D): boolean {
+        return this.x === vector.x && this.y === vector.y;
+    }
     getMagnitude(): number {
         return Math.sqrt(this.x**2 + this.y**2);
     }

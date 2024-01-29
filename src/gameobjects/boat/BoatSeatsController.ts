@@ -1,5 +1,6 @@
 import Vector2D from "../../math/Vector2D";
 import Player from "../players/Player";
+import Cannibal from "../players/instances/Cannibal";
 import Missionary from "../players/instances/Missionary";
 import Boat from "./Boat";
 import ConfigurationBoat from "./core/ConfigurationBoat";
@@ -9,8 +10,8 @@ export default class SeatsController {
   players: Map<string, Player>;
   boat: Boat;
   private orderedKeys: string[];
-  constructor(seats: Map<string, Player>, boat: Boat) {
-    this.players = seats;
+  constructor(players: Map<string, Player>, boat: Boat) {
+    this.players = players;
     this.boat = boat;
     this.orderedKeys = [];
   }
@@ -27,11 +28,9 @@ export default class SeatsController {
   addSeatPlayer(player: Player) {
     this.players.set(player.id, player);
     this.orderedKeys.push(player.id);
+    console.log(player.id);
   }
-  deletePlayer(player: Player) {
-    this.players.delete(player.id);
-  }
-  getSeats() {
+  getFlatSeats() {
     return Array.from(this.players.values());
   }
   private setSeatsPosition(): void {
@@ -46,11 +45,21 @@ export default class SeatsController {
     return this.players.size <= ConfigurationBoat.BOAT_SEATS_LIMIT;
   }
   shiftMissionaryPlayer(): Player | null {
-    const missionary = this.getSeats().find(
+    const missionary = this.getFlatSeats().find(
         player => player instanceof Missionary
     );
     if (!missionary) return null;
-    this.deletePlayer(missionary);
+    this.players.delete(missionary.id);
+    this.orderedKeys = this.orderedKeys.filter(key => key !== missionary.id);
     return missionary;
-}
+  }
+  shiftCannibalPlayer(): Player | null {
+    const cannibal = this.getFlatSeats().find(
+        player => player instanceof Cannibal
+    );
+    if (!cannibal) return null;
+    this.players.delete(cannibal.id);
+    this.orderedKeys = this.orderedKeys.filter(key => key !== cannibal.id);
+    return cannibal;
+  }
 }

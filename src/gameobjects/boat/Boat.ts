@@ -5,7 +5,7 @@ import ConfigurationBoat from "./core/ConfigurationBoat";
 import SpriteProvider from "../../assetmanagers/SpriteProvider";
 import BoatMovementController from "./BoatMovementController";
 import Player from "../players/Player";
-import SeatsController from "./SeatsController";
+import SeatsController from "./BoatSeatsController";
 import { BoatSprites } from "../../assetmanagers/SpriteManager";
 import PlayerGroupControls from "../playergroup/controls/PlayerGroupControls";
 import RenderProvider from "../../main/RenderProvider";
@@ -14,7 +14,7 @@ export default class Boat extends RenderizableGameObject {
     private sprites: BoatSprites;
     private animation: SpriteAnimator;
     public movementController: BoatMovementController;
-    private seats: Map<string, Player>;
+    private players: Map<string, Player>;
     public seatsController: SeatsController;
     private controls: PlayerGroupControls;
     constructor() {
@@ -26,29 +26,29 @@ export default class Boat extends RenderizableGameObject {
             ConfigurationBoat.BOAT_INITIAL_POSITION.y * canvasSize.height
         );
         super(position, sprites.toRight[0], scale);
+        this.players = new Map<string, Player>();
         this.sprites = sprites;
         this.controls = new PlayerGroupControls();
         this.movementController = new BoatMovementController(
-            this.position,
-            this.width,
-            this.controls);
+            this,
+            this.controls
+        );
         this.animation = new SpriteAnimator(
             this.sprites.toRight,
             ConfigurationBoat.BOAT_ANIMATION_INTERVAL
         );
-        this.seats = new Map<string, Player>();
-        this.seatsController = new SeatsController(this.seats, this);
+        
+        this.seatsController = new SeatsController(this.players, this);
     }
     update(): void {
         this.seatsController.update();
         this.animation.update();
         this.movementController.update();
-        
         this.changeSpriteDirection();
         
     }
     render(): void {
-        this.seats.forEach(seat => {
+        this.players.forEach(seat => {
             seat.render();
         });
         this.seatsController.render()
@@ -62,6 +62,7 @@ export default class Boat extends RenderizableGameObject {
         );
         
     }
+    
     changeSpriteDirection(): void {
         if (this.movementController.isBoatDirectionRight) this.animation.changeFrames = this.sprites.toRight;
         else this.animation.changeFrames = this.sprites.toLeft;
@@ -71,7 +72,7 @@ export default class Boat extends RenderizableGameObject {
         this.seatsController.addSeatPlayer(player);
         console.log("Player added to boat");
     }
-    removePlayer(player: Player) {
-        this.seatsController.deletePlayer(player);
+    getPlayers(){
+        return this.players.size;
     }
 }

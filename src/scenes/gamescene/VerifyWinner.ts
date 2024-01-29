@@ -1,12 +1,11 @@
 import Boat from "../../gameobjects/boat/Boat";
-import PlayerFinalGroup from "../../gameobjects/playergroup/instances/PlayerFinalGroup";
-import PlayerInitialGroup from "../../gameobjects/playergroup/instances/PlayerInitialGroup";
+import PlayerGroup from "../../gameobjects/playergroup/PlayerGroup";
 
 export default class VerifyWinner {
-    private playerInitialGroup: PlayerInitialGroup;
-    private playerFinalGroup: PlayerFinalGroup;
+    private playerInitialGroup: PlayerGroup;
+    private playerFinalGroup: PlayerGroup;
     private boat;
-    constructor(playerInitialGroup: PlayerInitialGroup, playerFinalGroup: PlayerFinalGroup, boat: Boat) {
+    constructor(playerInitialGroup: PlayerGroup, playerFinalGroup: PlayerGroup, boat: Boat) {
       this.playerInitialGroup = playerInitialGroup;
       this.playerFinalGroup = playerFinalGroup;
       this.boat = boat;

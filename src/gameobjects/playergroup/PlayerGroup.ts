@@ -31,6 +31,16 @@ export default class PlayerGroup {
 			});
 		}
   }
+	getEmptyPosition(): Vector2D {
+		const position = this.playerPositions.find(position => {
+			const player = this.getFlatPlayers().find(
+				player => player.position.equals(position)
+			);
+			return !player;
+		})!;
+		console.log("POSITION", position);
+		return position;
+	}
 	update() {
 		this.forEachPlayer(player => player.update());
 	}
@@ -44,9 +54,9 @@ export default class PlayerGroup {
 		this.players.forEach(action);
 	}
 	sitPlayer(player: Player): void {
-		if (this.players.size <= 6) {
+		if (this.players.size < 6) {
 			this.addPlayer(player);
-			const position = this.playerPositions[this.players.size - 1];
+			const position = this.getEmptyPosition();
 			this.setPlayerPosition(player, position);
 		}
 	}

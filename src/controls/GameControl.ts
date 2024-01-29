@@ -1,6 +1,8 @@
 enum GameControl {
-    MoveCannibal,
-    MoveMissionary,
+    PutIntoMissionary,
+    PutIntoCannibal,
+    TakeOffMissionary,
+    TakeOffCannibal,
     MoveBoat,
 }
 
