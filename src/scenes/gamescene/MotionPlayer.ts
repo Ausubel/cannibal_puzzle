@@ -29,33 +29,21 @@ export default class MotionPlayer {
       this.canMove = false;
 			this.putInMissionary();
 			this.timerMoveRatio.start();
-      console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
-      console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
-      console.log("BOAT GROUP",this.boat.seatsController.getFlatSeats());
 		}
     if (this.hasPulsedPutInCannibal()) {
       this.canMove = false;
       this.putInCannibal();
       this.timerMoveRatio.start();
-      console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
-      console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
-      console.log("BOAT GROUP",this.boat.seatsController.getFlatSeats());
     }
     if (this.hasPulsedTakeOffMissionary()){
       this.canMove = false;
       this.takeOffMissionary();
       this.timerMoveRatio.start();
-      console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
-      console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
-      console.log("BOAT GROUP",this.boat.seatsController.getFlatSeats());
     }
     if (this.hasPulsedTakeOffCannibal()){
       this.canMove = false;
       this.takeOffCannibal();
       this.timerMoveRatio.start();
-      console.log("INITIAL GROUP", this.playerInitialGroup.getFlatPlayers());
-      console.log("FINAL GROUP",this.playerFinalGroup.getFlatPlayers());
-      console.log("BOAT GROUP",this.boat.seatsController.getFlatSeats());
     }
 	}
   private hasPulsedPutInCannibal(): boolean {
@@ -78,11 +66,9 @@ export default class MotionPlayer {
       if (!isBoatFinalDirection) {
         const missionary = this.playerInitialGroup.shiftMissionaryPlayer();
         if (!missionary) return;
-        console.log(missionary);
         this.boat.seatsController.addSeatPlayer(missionary);
       } else {
         const missionary = this.playerFinalGroup.shiftMissionaryPlayer();
-        console.log(missionary);
         if (!missionary) return;
         this.boat.seatsController.addSeatPlayer(missionary);
       }
@@ -96,13 +82,11 @@ export default class MotionPlayer {
     if (seatsUsed <= 1) {
       if (!isBoatFinalDirection) {
         const cannibal = this.playerInitialGroup.shiftCannibalPlayer();
-        console.log(cannibal);
         if (!cannibal) return;
         this.boat.seatsController.addSeatPlayer(cannibal);
       } else {
         const cannibal = this.playerFinalGroup.shiftCannibalPlayer();
         if (!cannibal) return;
-        console.log(cannibal);
         this.boat.seatsController.addSeatPlayer(cannibal);
       }
     }
@@ -115,12 +99,10 @@ export default class MotionPlayer {
       if (!isBoatFinalDirection) {
         const missionary = this.boat.seatsController.shiftMissionaryPlayer();
         if (!missionary) return;
-        console.log(missionary);
         this.playerInitialGroup.sitPlayer(missionary);
       } else {
         const missionary = this.boat.seatsController.shiftMissionaryPlayer();
         if (!missionary) return;
-        console.log(missionary);
         this.playerFinalGroup.sitPlayer(missionary);
       }
     }
@@ -133,12 +115,10 @@ export default class MotionPlayer {
       if (!isBoatFinalDirection) {
         const cannibal = this.boat.seatsController.shiftCannibalPlayer();
         if (!cannibal) return;
-        console.log(cannibal);
         this.playerInitialGroup.sitPlayer(cannibal);
       } else {
         const cannibal = this.boat.seatsController.shiftCannibalPlayer();
         if (!cannibal) return;
-        console.log(cannibal);
         this.playerFinalGroup.sitPlayer(cannibal);
       }
     }

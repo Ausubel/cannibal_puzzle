@@ -28,7 +28,6 @@ export default class SeatsController {
   addSeatPlayer(player: Player) {
     this.players.set(player.id, player);
     this.orderedKeys.push(player.id);
-    console.log(player.id);
   }
   getFlatSeats() {
     return Array.from(this.players.values());
@@ -61,5 +60,13 @@ export default class SeatsController {
     this.players.delete(cannibal.id);
     this.orderedKeys = this.orderedKeys.filter(key => key !== cannibal.id);
     return cannibal;
+  }
+  getQuantityMissionary(): number {
+    return this.getFlatSeats().filter(player => player instanceof Missionary)
+      .length;
+  }
+  getQuantityCannibal(): number {
+    return this.getFlatSeats().filter(player => player instanceof Cannibal)
+      .length;
   }
 }

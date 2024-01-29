@@ -38,7 +38,6 @@ export default class PlayerGroup {
 			);
 			return !player;
 		})!;
-		console.log("POSITION", position);
 		return position;
 	}
 	update() {
@@ -52,6 +51,14 @@ export default class PlayerGroup {
 	}
 	forEachPlayer(action: PeekEnemyIterate) {
 		this.players.forEach(action);
+	}
+	getQuantityMissionary(): number {
+		return this.getFlatPlayers().filter(player => player instanceof Missionary)
+			.length;
+	}
+	getQuantityCannibal(): number {
+		return this.getFlatPlayers().filter(player => player instanceof Cannibal)
+			.length;
 	}
 	sitPlayer(player: Player): void {
 		if (this.players.size < 6) {

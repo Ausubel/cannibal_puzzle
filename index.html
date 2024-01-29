@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<link rel="shortcut icon" href="/console-controller-color.svg">
-		<link rel="stylesheet" href="/assets/index.css">
-		<title>Game</title>
-	</head>
-	<body>
-		<canvas id="game"></canvas>
-		<script
-			type="module"
-			src="/src/main.ts"
-		></script>
-	</body>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="shortcut icon" href="/console-controller-color.svg">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" href="/assets/index.css">
+	<title>Game</title>
+</head>
+
+<body>
+	<canvas id="game"></canvas>
+	<script type="module" src="/src/main.ts"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+	<div class="alert  container w-50 mt-3 d-flex justify-content-evenly" id="lost" role="alert">
+		<div>
+			<p>
+				<button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+					data-bs-target="#collapseWidthRules" aria-expanded="false" aria-controls="collapseWidthRules">
+					REGLAS
+				</button>
+			</p>
+			<div style="min-height: 140px;">
+				<div class="collapse collapse-horizontal" id="collapseWidthRules">
+					<div class="card card-body" style="width: 450px;">
+						<h4>Reglas</h4>
+						1. Los caníbales no pueden ser superados en número por misioneros en ninguna las orillas. <br>
+						3. El bote solo puede transportar a dos personas a la vez. <br>
+						4. El bote no puede cruzar el río sin pasajeros. <br>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div >
+			<p>
+				<button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+					data-bs-target="#collapseWidthControls" aria-expanded="false" aria-controls="collapseWidthControls">
+					CÓMO JUGAR
+				</button>
+			</p>
+			<div style="min-height: 120px;">
+				<div class="collapse collapse-horizontal" id="collapseWidthControls">
+					<div class="card card-body" style="width: 380px;">
+						<h4>Controles</h4>
+						<strong>Para subir a los jugadores al bote usa:</strong>
+						"F" para los caníbales y "J" para los misioneros. <br>
+						<strong>Para bajar a los jugadores al bote usa</strong>
+						"C" para los caníbales y "M" para los misioneros. <br>
+						<strong>Para mover el bote usa "ESPACIO".</strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
 </html>

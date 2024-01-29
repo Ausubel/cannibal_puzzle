@@ -3,6 +3,7 @@ import Scene from "../core/Scene";
 import Boat from "../../gameobjects/boat/Boat";
 import MotionPlayer from "./MotionPlayer";
 import PlayerGroup from "../../gameobjects/playergroup/PlayerGroup";
+import VerifyWinner from "./VerifyWinner";
 
 export default class GameScene implements Scene {
     private background: Background;
@@ -10,6 +11,7 @@ export default class GameScene implements Scene {
     private playerFinalGroup: PlayerGroup;
     private boat: Boat;
     private motionPlayer: MotionPlayer;
+    private verifyWinner: VerifyWinner;
     constructor() {
         const isInitialGroup = true
         this.background = new Background();
@@ -21,6 +23,11 @@ export default class GameScene implements Scene {
             this.playerInitialGroup,
             this.playerFinalGroup
         );
+        this.verifyWinner = new VerifyWinner(
+            this.playerInitialGroup,
+            this.playerFinalGroup,
+            this.boat
+        );
     }
     update(): void {
         this.background.update();
@@ -28,6 +35,7 @@ export default class GameScene implements Scene {
         this.playerInitialGroup.update();
         this.playerFinalGroup.update();
         this.motionPlayer.update();
+        this.verifyWinner.update();
     }
     render(): void {
         this.background.render();

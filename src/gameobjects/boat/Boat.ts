@@ -70,7 +70,6 @@ export default class Boat extends RenderizableGameObject {
     addPlayer(player: Player): void {
         if (!this.seatsController.isLimitOfSeats()) return;
         this.seatsController.addSeatPlayer(player);
-        console.log("Player added to boat");
     }
     getPlayers(){
         return this.players.size;

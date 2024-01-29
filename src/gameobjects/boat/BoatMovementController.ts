@@ -37,10 +37,10 @@ export default class BoatMovementController{
     this.enableMove();
     this.move();
   }
-  private reachedBoundaryLeftLimit(): boolean {
+  reachedBoundaryLeftLimit(): boolean {
     return this.boatPosition.x - ConfigurationBoat.BOAT_SPEED_MOVEMENT > this.boundaryLeft;
   } 
-  private reachedBoundaryRightLimit(): boolean {
+  reachedBoundaryRightLimit(): boolean {
     return this.boatPosition.x + ConfigurationBoat.BOAT_SPEED_MOVEMENT <= this.boundaryRight;
   }
   private changeDirection(): void {
@@ -70,7 +70,7 @@ export default class BoatMovementController{
   private enableMove(): void {
     this.canMove = this.boat.getPlayers() > 0;
   }
-  private hasPulsedMoveBoat(): boolean {
+  hasPulsedMoveBoat(): boolean {
     if (this.canPulse) return this.gameControlProvider.hasPulsed(this.movementControls.moveBoat);
     return false; 
   }
