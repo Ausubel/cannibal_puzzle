@@ -43,6 +43,12 @@ export default class BoatMovementController{
   reachedBoundaryRightLimit(): boolean {
     return this.boatPosition.x + ConfigurationBoat.BOAT_SPEED_MOVEMENT <= this.boundaryRight;
   }
+  isArriveInitialEdge(): boolean{
+    return this.boatPosition.x == this.boundaryLeft;
+  }
+  isArriveFinalEdge(): boolean{
+    return this.boatPosition.x == this.boundaryRight;
+  }
   private changeDirection(): void {
     this.isboatDirectionRight = !this.isboatDirectionRight;
   }
