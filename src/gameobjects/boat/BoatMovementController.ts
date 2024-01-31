@@ -11,8 +11,8 @@ export default class BoatMovementController{
   private isboatDirectionRight: boolean;
   private boatPosition: Vector2D;
   private gameControlProvider: GameControlProvider;
-  private readonly boundaryLeft: number;
-  private readonly boundaryRight: number;
+  readonly boundaryLeft: number;
+  readonly boundaryRight: number;
   private moveButtonCooldownTimer: Timer;
   private canMove: boolean = true;
   private canPulse: boolean = true;
@@ -43,12 +43,7 @@ export default class BoatMovementController{
   reachedBoundaryRightLimit(): boolean {
     return this.boatPosition.x + ConfigurationBoat.BOAT_SPEED_MOVEMENT <= this.boundaryRight;
   }
-  isArriveInitialEdge(): boolean{
-    return this.boatPosition.x == this.boundaryLeft;
-  }
-  isArriveFinalEdge(): boolean{
-    return this.boatPosition.x == this.boundaryRight;
-  }
+  
   private changeDirection(): void {
     this.isboatDirectionRight = !this.isboatDirectionRight;
   }

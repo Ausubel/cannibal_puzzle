@@ -25,7 +25,6 @@ export default class GameControlProvider {
     }
     //#region Methods
     hasPulsed(control: GameControl): boolean {
-        console.log(control)
         return this.gameControlManager.hasPulsed(control);
     }
     mapGameControl(key: Keyboard, control: GameControl) {
