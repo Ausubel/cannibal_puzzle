@@ -12,6 +12,7 @@ export default class GameScene implements Scene {
     private boat: Boat;
     private motionPlayer: MotionPlayer;
     private verifyWinner: VerifyWinner;
+    public isRunning: boolean = true;
     constructor() {
         const isInitialGroup = true
         this.background = new Background();
@@ -26,10 +27,12 @@ export default class GameScene implements Scene {
         this.verifyWinner = new VerifyWinner(
             this.playerInitialGroup,
             this.playerFinalGroup,
-            this.boat
+            this.boat,
+            this
         );
     }
     update(): void {
+        if (!this.isRunning) return;
         this.background.update();
         this.boat.update();
         this.playerInitialGroup.update();

@@ -5,7 +5,7 @@ export default class ConfigurationBoat {
     x: 0.12,
     y: 0.7
   }
-  static readonly BOAT_SPEED_MOVEMENT: number = 20;
+  static readonly BOAT_SPEED_MOVEMENT: number = 25;
   static readonly BOAT_SEATS_LIMIT: number = 2;
   static readonly BOAT_FIRST_SEATS_POSITION = {
     x: 10,
