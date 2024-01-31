@@ -66,7 +66,6 @@ export default class VerifyWinner {
   update(){
     this.verifyLose();
     this.verifyWin();
-    this.userWin();
   }
   hasPulsedMoveBoat(): boolean {
     return this.boat.movementController.hasPulsedMoveBoat()
