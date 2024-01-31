@@ -65,7 +65,8 @@ export default class VerifyWinner {
   
   update(){
     this.verifyLose();
-    this.verifyWin()
+    this.verifyWin();
+    this.userWin();
   }
   hasPulsedMoveBoat(): boolean {
     return this.boat.movementController.hasPulsedMoveBoat()
@@ -86,14 +87,14 @@ export default class VerifyWinner {
     this.gameScene.isRunning = false;
     Swal.fire({
       title: "¡GANASTE!",
-      width: 500,
+      width: 550,
       text: "¡Felicidades! Has llevado a todos los misioneros y canibales al otro lado del rio. ¿Quieres jugar de nuevo?",
-      padding: "4em",
+      padding: "1em",
       color: "#716add",
       backdrop: `
         rgba(0,0,123,0.4)
         url("/assets/images/nyan-cat.gif")
-        top
+        left top
         no-repeat
       `,
       showConfirmButton: true
